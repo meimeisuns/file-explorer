@@ -2,10 +2,10 @@
 
 from explorer import app
 from flask import abort, request, jsonify
+import os
 from pathlib import Path
-from os import environ
 
-current_path = Path(environ.get("DIR")) or Path("/")
+current_path = Path(app.config["DEFAULT_PATH"])
 
 
 def _list_dir(path: Path):
