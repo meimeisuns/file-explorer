@@ -1,4 +1,6 @@
-# Install and Testing
+# Install
+
+## Run for Manual Testing
 
 1. Build image
 
@@ -27,3 +29,27 @@
    ```
    curl -i -H "Content-Type: application/json" -X GET http://localhost:8000/
    ```
+
+## Run Tests
+
+1. Build image
+
+   to build for test image, add target:
+
+   ```
+   docker build -t file-explorer --target test .
+   ```
+
+2. Run image
+
+   run image with correct directory passed in:
+
+   ```
+   docker run -e DIR=/tests/sample_directory/ file-explorer
+   ```
+
+# Suggestions for Future Work
+
+Improvements:
+
+- mock testing directory to not depend on container environment variable
