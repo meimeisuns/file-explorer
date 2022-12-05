@@ -30,6 +30,10 @@
    curl -i -H "Content-Type: application/json" -X GET http://localhost:8000/
    ```
 
+   ```
+   curl -i -H "Content-Type: application/json" -X POST -d '{"type": "dir","name":"hello"}' http://localhost:8000/
+   ```
+
 ## Run Tests
 
 1. Build image
