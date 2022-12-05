@@ -36,7 +36,7 @@ def _get_file_contents(file: Path):
 @app.route("/<path:subpath>", methods=["GET"])
 def home(subpath):
     if request.method == "GET":
-        path = Path(default_path + subpath) if subpath else Path(default_path)
+        path = Path(default_path + escape(subpath)) if subpath else Path(default_path)
         if path.is_dir():
             return jsonify(_list_dir(path))
         elif path.is_file():
