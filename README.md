@@ -7,7 +7,7 @@
    tags image as file-explorer
 
    ```
-   docker build -t file-explorer .
+   docker build -t file-explorer --target base .
    ```
 
 2. Run image
@@ -21,7 +21,7 @@
    Or use environment variable to specify directory in container to start from:
 
    ```
-   docker run --publish 8000:8000 -e DIR=/explorer/ file-explorer
+   docker run --publish 8000:8000 -e DIR=/tests/sample_directory/ file-explorer
    ```
 
 3. Curl command from outside container
