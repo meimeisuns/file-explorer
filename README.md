@@ -21,7 +21,7 @@
    Or use environment variable to specify directory in container to start from:
 
    ```
-   docker run --publish 8000:8000 -e DIR=/tests/sample_directory/ file-explorer
+   docker run --publish 8000:8000 -e DIR=/tests/sample_dir/ file-explorer
    ```
 
 3. Curl command from outside container
@@ -45,7 +45,7 @@
    run image with correct directory passed in:
 
    ```
-   docker run -e DIR=/tests/sample_directory/ file-explorer
+   docker run -e DIR=/tests/sample_dir/ file-explorer
    ```
 
 # Suggestions for Future Work
