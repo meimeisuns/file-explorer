@@ -8,25 +8,28 @@ from pathlib import Path
 default_path = app.config["DEFAULT_PATH"]
 
 
+def _get_basic_attr(path: Path):
+    return {
+        "name": path.name,
+        "owner": path.owner(),
+        "size": path.stat().st_size,
+        # TODO convert to MB GB
+        "permissions": path.stat().st_mode,
+    }
+
+
 def _list_dir(path: Path):
     listing = []
     for entry in path.iterdir():
-        entry_info = {
-            "name": entry.name if entry.is_file() else f"{entry.name}/",
-            "owner": entry.owner(),
-            "size": entry.stat().st_size,
-            # TODO convert to MB GB
-            "permissions": entry.stat().st_mode,
-        }
-        listing.append(entry_info)
+        listing.append(_get_basic_attr(entry))
     return listing
 
 
-def _open_file(path: Path):
+def _get_file_contents(file: Path):
     # TODO must make sure you have permissions
-    # if entry.is_file():
-    #    entry_info["contents"] = entry.read_text()
-    pass
+    attrs = _get_basic_attr(file)
+    attrs["text"] = file.read_text()
+    return attrs
 
 
 @app.route("/", defaults={"subpath": None}, methods=["GET"])
@@ -36,7 +39,7 @@ def home(subpath):
         path = Path(default_path + subpath) if subpath else Path(default_path)
         if path.is_dir():
             return jsonify(_list_dir(path))
-        # if valid file:
-        #   open file
+        elif path.is_file():
+            return jsonify(_get_file_contents(path))
         else:
             abort(404)
