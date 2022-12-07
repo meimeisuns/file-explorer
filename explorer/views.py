@@ -46,23 +46,24 @@ def home(subpath):
     elif request.method == "POST":
         if not request.json:
             return abort(400)
+        if curr_path.is_file():
+            abort(
+                400,
+                description=f"Unable to create new directory or file in file {curr_path}. Please use the path for a directory.",
+            )
+        if not curr_path.is_dir():
+            abort(400, description="Please use the path for an existing directory.")
         request_body = request.json
         type = request_body.get("type")
         if not type or type not in ["dir", "file"]:
             abort(400, description="Please specify type as dir or file.")
         name = request_body.get("name")
-        contents = request_body.get("contents")
+        if not name:
+            abort(
+                400, description="Please provide name of directory or file to create."
+            )
         if type == "dir":
             try:
-                if not type or not name:
-                    abort(
-                        400, description="Please provide name of directory to create."
-                    )
-                if curr_path.is_file():
-                    abort(
-                        400,
-                        description=f"Unable to create folder in file {curr_path}. Please use the path for a folder.",
-                    )
                 new_path = Path(str_curr_path + escape(name))
                 new_path.mkdir()
                 return Response(
@@ -72,5 +73,17 @@ def home(subpath):
             except (FileExistsError, FileNotFoundError) as e:
                 error = str(e)
                 abort(400, description=f"Failed to create: {error}")
+        elif type == "file":
+            contents = request_body.get("contents")
+            if contents is None:
+                abort(400, description="Please provide contents for file.")
+            new_path = Path(str_curr_path + escape(name))
+            with new_path.open("w", encoding="utf-8") as f:
+                if contents != "":
+                    f.write(contents)
+            return Response(
+                f"File {name} successfully created in {str_curr_path}.",
+                status=200,
+            )
     else:
         abort(400)

@@ -26,12 +26,22 @@
 
 3. Curl command from outside container
 
+   See [API guide](#how-to-use-api) for more details.
+
    ```
    curl -i -H "Content-Type: application/json" -X GET http://localhost:8000/
    ```
 
+   creating a new directory:
+
    ```
    curl -i -H "Content-Type: application/json" -X POST -d '{"type": "dir","name":"hello"}' http://localhost:8000/
+   ```
+
+   creating a new file:
+
+   ```
+   curl -i -H "Content-Type: application/json" -X POST -d '{"type": "file","name":"hello.txt","contents":"new text file"}' http://localhost:8000/hello/
    ```
 
 ## Run Tests
@@ -51,6 +61,8 @@
    ```
    docker run -e DIR=/tests/sample_dir/ file-explorer
    ```
+
+# How to use API
 
 # Suggestions for Future Work
 
