@@ -6,6 +6,8 @@ This is a simple file explorer app that allows you to:
 
 2. `POST` a new file or directory
 
+This application took approximately 5-6 hrs total of development time.
+
 # Install and Run
 
 ## Run for Manual Testing
@@ -178,7 +180,7 @@ Make sure the subpath points to a valid directory. If the request is successful,
 File hello.txt successfully created in /tests/sample_dir/.
 ```
 
-# Discussion of Technologies
+# Overview of Technologies
 
 Here is the summary of the technologies used here:
 
