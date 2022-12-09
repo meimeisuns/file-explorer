@@ -77,6 +77,8 @@ def home(subpath):
     elif request.method == "POST":
         if not request.json:
             abort(400)
+        if not str_curr_path.endswith("/"):
+            str_curr_path += "/"
         request_body = request.json
         return _post(str_curr_path, request_body)
     else:

@@ -92,6 +92,18 @@ def test_create_file(client):
     assert response_dict.get("text") == ""
 
 
+def test_create_file_no_ending_slash(client):
+    post_response = client.post(
+        "/another_dir",
+        json={"type": "file", "name": "new_file.txt", "contents": "new text file!"},
+    )
+    assert post_response.status_code == 200
+    get_response = client.get("/another_dir/new_file.txt")
+    assert get_response.status_code == 200
+    response_dict = json.loads(get_response.data)
+    assert "new text file" in response_dict.get("text")
+
+
 def test_create_file_no_contents_fails(client):
     # for validation only. should be able to have empty file
     post_response = client.post("/", json={"type": "file", "name": "new_file.txt"})
